@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, email: str, password: str, totp:str=None):
+    def __init__(self, email: str, password: str, totp=None):
         """
         Constructor for the User
         Args:
@@ -7,6 +7,10 @@ class User:
             password (str): the hashed password of the user:
             totp (str): the totp key of the user:
         """
+        print("debug: initializing User with email =", email, "password =", password, "totp =", totp)
+        if email is None or password is None:
+            raise TypeError("Email and password must be provided")
+        
         self.email = email
         self.password = password
         self.totp = totp
@@ -26,11 +30,12 @@ class User:
         """
         return self.password
 
-    def get_totp(self) -> str:
+    def get_totp(self):
         """
         getter for the totp of the user
         Returns: The totp key of the user
         """
+        
         return self.totp
 
     def set_totp(self, totp: str) -> None:
@@ -76,3 +81,5 @@ class User:
         else:
             raise TypeError("No password provided")
 
+    def __str__(self):
+        return f"User(email={self.email}, password={self.password}, totp={self.totp})"
