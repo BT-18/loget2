@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, email: str, password: str, totp=None):
+    def __init__(self, email: str, password: str, role: str, totp=None):
         """
         Constructor for the User
         Args:
@@ -7,12 +7,14 @@ class User:
             password (str): the hashed password of the user:
             totp (str): the totp key of the user:
         """
-        print("debug: initializing User with email =", email, "password =", password, "totp =", totp)
+        print("debug: initializing User with email =", email, "password =", password, "role =", role, "totp =", totp)
         if email is None or password is None:
             raise TypeError("Email and password must be provided")
-        
+        if role not in ["admin", "user"]:
+            raise ValueError("Role must be either 'admin' or 'user'")
         self.email = email
         self.password = password
+        self.role = role
         self.totp = totp
 
     def get_email(self) -> str:
@@ -37,6 +39,13 @@ class User:
         """
         
         return self.totp
+    
+    def get_role(self) -> str:
+        """
+        getter for the role of the user
+        Returns: The role of the user
+        """
+        return self.role
 
     def set_totp(self, totp: str) -> None:
         """
@@ -80,6 +89,20 @@ class User:
             self.password = password
         else:
             raise TypeError("No password provided")
+        
+    def set_role(self, role: str) -> None:
+        """
+        Change the role of the user
+
+        Args:
+            role: the new role of the user
+
+        Returns: Nothing
+        """
+        if role in ["admin", "user"]:
+            self.role = role
+        else:
+            raise ValueError("Role must be either 'admin' or 'user'")
 
     def __str__(self):
-        return f"User(email={self.email}, password={self.password}, totp={self.totp})"
+        return f"User(email={self.email}, password={self.password}, role={self.role}, totp={self.totp})"

@@ -4,8 +4,11 @@ CREATE TABLE IF NOT EXISTS Users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(50) UNIQUE NOT NULL,
     hash VARCHAR(255) NOT NULL,
+    role VARCHAR(50),
     totp VARCHAR(255),
-    role VARCHAR(50)
+    CONSTRAINT validRole CHECK(
+        role IN ('user','admin')
+    )
 );
 
 CREATE TABLE IF NOT EXISTS Groups(
@@ -33,3 +36,6 @@ CREATE TABLE IF NOT EXISTS EntityGroup(
     FOREIGN KEY (entity_id) REFERENCES Entity(id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE
 );
+
+INSERT INTO Users (email, hash, role) VALUES ('admin@test.com', "1234", 'admin')
+INSERT INTO Users (email, hash, role) VALUES ('user@test.com', "1234", 'user')
