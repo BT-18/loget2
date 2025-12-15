@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        <tr>
+            <td>1</td>
+            <td>Jean Dupont</td>
+            <td>jean.dupont@example.com</td>
+            <td>Administrateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Marie Martin</td>
+            <td>marie.martin@example.com</td>
+            <td>Utilisateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Pierre Durand</td>
+            <td>pierre.durand@example.com</td>
+            <td>Invité</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Sophie Leroy</td>
+            <td>sophie.leroy@example.com</td>
+            <td>Utilisateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Lucie Bernard</td>
+            <td>lucie.bernard@example.com</td>
+            <td>Administrateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Thomas Moreau</td>
+            <td>thomas.moreau@example.com</td>
+            <td>Utilisateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Camille Dubois</td>
+            <td>camille.dubois@example.com</td>
+            <td>Invité</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Antony Smith</td>
+            <td>antony.smith@example.com</td>
+            <td>Utilisateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Emma Wilson</td>
+            <td>emma.wilson@example.com</td>
+            <td>Administrateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Hugo Martin</td>
+            <td>hugo.martin@example.com</td>
+            <td>Utilisateur</td>
+            <td class="actions">
+                <button class="edit-btn">Modifier</button>
+                <button class="delete-btn">Supprimer</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="page-info">Afficher</span>
+    <select id="rowsPerPage" onchange="changeRowsPerPage()">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+    </select>
+    <span class="page-info">éléments par page</span>
+    <button onclick="prevPage()" id="prevBtn">Précédent</button>
+    <span id="pageNumbers"></span>
+    <button onclick="nextPage()" id="nextBtn">Suivant</button>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, template_rendered
 from flask_jwt_extended import jwt_required, get_jwt
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')

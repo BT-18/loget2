@@ -37,5 +37,7 @@ CREATE TABLE IF NOT EXISTS EntityGroup(
     FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE
 );
 
+CREATE INDEX index_datetime ON SystemEvents(DeviceReportedTime)
+
 INSERT INTO Users (email, hash, role) VALUES ('admin@test.com', "1234", 'admin')
 INSERT INTO Users (email, hash, role) VALUES ('user@test.com', "1234", 'user')

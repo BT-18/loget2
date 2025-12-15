@@ -98,3 +98,18 @@ class UserRepo:
         cursor = self.db.cursor()
         cursor.execute(query, (email,))
         self.db.commit()
+        
+    def get_all_users(self) -> list:
+        """
+        Retrieve all users from the database
+        Args: None
+        Returns: A list of User objects
+        """
+        query = "SELECT email, hash, role, totp FROM Users"
+        cursor = self.db.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        users = []
+        for result in results:
+            users.append(User(result[0], result[1], result[2], totp=result[3]))
+        return users    

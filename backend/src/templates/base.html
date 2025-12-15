@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau d'administration</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-header">Admin Panel</div>
+        <ul>
+            <li><a href="#">Tableau de bord</a></li>
+            <li><a href="#">Utilisateurs</a></li>
+			<li><a href="#">Groupes</a></li>
+            <li><a href="#">Paramètres</a></li>
+            <li><a href="#">Messages</a></li>
+            <li><a href="#">Déconnexion</a></li>
+        </ul>
+    </div>
+    {% block content %} {% endblock %}
+
+</body>
+</html>
