@@ -1,6 +1,7 @@
 from model.entity import *
 from util.connector import Pool
 
+
 class EntityRepo:
     def __init__(self, databasePool: Pool):
         self.db = databasePool.get_connection()
@@ -56,5 +57,3 @@ class EntityRepo:
         cursor = self.db.cursor()
         cursor.execute(query, (name,))
         self.db.commit()
-        
-    

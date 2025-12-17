@@ -1,4 +1,4 @@
-class log:
+class Log:
     def __init__(self, id: int, fromHost: str, receivedAt: str, message: str):
         """
         Constructor for the log

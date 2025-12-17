@@ -103,6 +103,6 @@ class User:
             self.role = role
         else:
             raise ValueError("Role must be either 'admin' or 'user'")
-
+    
     def __str__(self):
         return f"User(email={self.email}, password={self.password}, role={self.role}, totp={self.totp})"

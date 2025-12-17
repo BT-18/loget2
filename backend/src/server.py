@@ -2,7 +2,7 @@ from flask import Flask, request
 from util.connector import Pool
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt
 from service.user_service import UserService
-from routes.user_routes import init_user_routes
+from backend.src.routes.user_route import init_user_routes
  
 
 app = Flask(__name__)

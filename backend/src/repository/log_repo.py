@@ -7,7 +7,7 @@ class LogRepo:
         self.db = databasePool.get_connection()
         
         
-    def get_logs(self, entity_name = None, start_timestamp= None, end_timestamp = None, keyword= None,) -> list:
+    def get_logs(self, entities_names: list, start_timestamp= None, end_timestamp = None, keyword= None, ) -> list:
         """
         Retrieve logs with optional filters.
         Args:
@@ -20,9 +20,10 @@ class LogRepo:
         query = "SELECT ID, FromHost, ReceivedAt, Message FROM SystemEvents WHERE 1=1"
         params = []
 
-        if entity_name:
-            query += " AND FromHost = ?"
-            params.append(entity_name)
+        if entities_names:
+            placeholders = ','.join('?' for _ in entities_names)
+            query += f" AND FromHost IN ({placeholders})"
+            params.extend(entities_names)
         if start_timestamp:
             query += " AND DeviceReportedTime >= ?"
             params.append(start_timestamp)

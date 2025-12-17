@@ -1,4 +1,4 @@
-class group:
+class Group:
     def __init__(self, name: str):
         """
         Constructor for the group

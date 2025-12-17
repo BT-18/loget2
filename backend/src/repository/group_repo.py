@@ -86,22 +86,6 @@ class GroupRepo:
             users.append(row[0])
         return users
     
-    def get_groups_of_user(self, email: str) -> list:
-        """
-        Retrieve all groups of a user
-        Args:
-            email (str): the email of the user
-        Returns: A list of group names
-        """
-        query = "SELECT G.name FROM Groups G JOIN UserGroups UG ON G.id = UG.group_id JOIN Users U ON UG.user_id = U.id WHERE U.email = ?"
-        cursor = self.db.cursor()
-        cursor.execute(query, (email,))
-        results = cursor.fetchall()
-        groups = []
-        for row in results:
-            groups.append(row[0])
-        return groups
-    
     def rename_group(self, old_name: str, new_name: str) -> None:
         """
         Rename a group
@@ -140,3 +124,19 @@ class GroupRepo:
         cursor = self.db.cursor()
         cursor.execute(query, (entity_name, group_name))
         self.db.commit()
+        
+    def get_entities_of_group(self, group_name: str) -> list:
+        """
+        Retrieve all entities of a group
+        Args:
+            group_name (str): the name of the group
+        Returns: A list of entity names
+        """
+        query = "SELECT E.name FROM Entities E JOIN EntityGroup EG ON E.id = EG.entity_id JOIN Groups G ON EG.group_id = G.id WHERE G.name = ?"
+        cursor = self.db.cursor()
+        cursor.execute(query, (group_name,))
+        results = cursor.fetchall()
+        entities = []
+        for row in results:
+            entities.append(row[0])
+        return entities

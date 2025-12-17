@@ -37,7 +37,11 @@ CREATE TABLE IF NOT EXISTS EntityGroup(
     FOREIGN KEY (group_id) REFERENCES Groups(id) ON DELETE CASCADE
 );
 
-CREATE INDEX index_datetime ON SystemEvents(DeviceReportedTime)
+
+# Création Index pour améliorer la vitesse des requêtes (pour supprimer: ALTER TABLE SystemEvents DROP INDEX nom_index)
+CREATE FULLTEXT INDEX idx_message_fulltext ON SystemEvents(Message);
+CREATE INDEX idx_devicereportedtime ON SystemEvents(DeviceReportedTime);
+CREATE INDEX idx_fromhost_time ON SystemEvents(FromHost, DeviceReportedTime);
 
 INSERT INTO Users (email, hash, role) VALUES ('admin@test.com', "1234", 'admin')
 INSERT INTO Users (email, hash, role) VALUES ('user@test.com', "1234", 'user')

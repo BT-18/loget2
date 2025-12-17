@@ -85,15 +85,5 @@ class GroupService:
             return "USER_REMOVED_FROM_GROUP"
         except mariadb.Error as e:
             return e.msg
-        
-    def get_groups_of_user(self, email: str, role_claims: str):
-        """
-        Service method to retrieve all groups of a user
-        Args:
-            email (str): the email of the user
-        Returns: A list of group names
-        """
-        if role_claims != "admin":
-            return "ADMIN_PRIVILEGES_REQUIRED"
-        return self.group_repo.get_groups_of_user(email)
+    
         

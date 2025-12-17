@@ -113,3 +113,36 @@ class UserRepo:
         for result in results:
             users.append(User(result[0], result[1], result[2], totp=result[3]))
         return users    
+    
+    def get_groups_of_users(self, email: str) -> list:
+        """
+        Retrieve the groups associated with the user
+        Returns: A list of group names
+        """
+        query = "SELECT G.name FROM Groups G JOIN UserGroups UG ON G.id = UG.group_id JOIN Users U ON UG.user_id = U.id WHERE U.email = ?"
+        cursor = self.db.cursor()
+        cursor.execute(query, (email,))
+        results = cursor.fetchall()
+        groups = []
+        for row in results:
+            groups.append(row[0])
+        return groups
+
+
+    
+    def get_entities_of_users(self, email: str) -> list:
+        """
+        Retrieve the entities associated with the user
+        Returns: A list of entity names
+        """
+        entities_list = []
+        user_groups = self.get_groups_of_users(email)
+        for group_name in user_groups:
+            query = "SELECT E.name FROM Entities E JOIN GroupEntities GE ON E.id = GE.entity_id JOIN Groups G ON GE.group_id = G.id WHERE G.name = ?"
+            cursor = self.db.cursor()
+            cursor.execute(query, (group_name,))
+            results = cursor.fetchall()
+            for row in results:
+                if row[0] not in entities_list:
+                    entities_list.append(row[0])
+        return entities_list
