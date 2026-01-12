@@ -4,8 +4,7 @@ import mariadb
 
 class LogRepo:
     def __init__(self, databasePool: Pool):
-        self.db = databasePool.get_connection()
-        
+        self.pool = databasePool
         
     def get_logs(self, entities_names: list, start_timestamp= None, end_timestamp = None, keyword= None, ) -> list:
         """
@@ -17,27 +16,31 @@ class LogRepo:
             keyword: Filter logs containing this keyword in their message.
         Returns: A list of Log objects.
         """
-        query = "SELECT ID, FromHost, ReceivedAt, Message FROM SystemEvents WHERE 1=1"
-        params = []
+        conn = self.pool.get_connection()
+        try:
+            query = "SELECT ID, FromHost, ReceivedAt, Message FROM SystemEvents WHERE 1=1"
+            params = []
 
-        if entities_names:
-            placeholders = ','.join('?' for _ in entities_names)
-            query += f" AND FromHost IN ({placeholders})"
-            params.extend(entities_names)
-        if start_timestamp:
-            query += " AND DeviceReportedTime >= ?"
-            params.append(start_timestamp)
-        if end_timestamp:
-            query += " AND DeviceReportedTime <= ?"
-            params.append(end_timestamp)
-        if keyword:
-            query += " AND MATCH(Message) AGAINST(? IN BOOLEAN MODE)"
-            params.append(f"%{keyword}%")
+            if entities_names:
+                placeholders = ','.join('?' for _ in entities_names)
+                query += f" AND FromHost IN ({placeholders})"
+                params.extend(entities_names)
+            if start_timestamp:
+                query += " AND DeviceReportedTime >= ?"
+                params.append(start_timestamp)
+            if end_timestamp:
+                query += " AND DeviceReportedTime <= ?"
+                params.append(end_timestamp)
+            if keyword:
+                query += " AND MATCH(Message) AGAINST(? IN BOOLEAN MODE)"
+                params.append(f"%{keyword}%")
 
-        cursor = self.db.cursor()
-        cursor.execute(query, tuple(params))
-        results = cursor.fetchall()
-        logs = []
-        for row in results:
-            logs.append(Log(id=row[0], fromHost=row[1], receivedAt=row[2], message=row[3]))
-        return logs
+            cursor = conn.cursor()
+            cursor.execute(query, tuple(params))
+            results = cursor.fetchall()
+            logs = []
+            for row in results:
+                logs.append(Log(id=row[0], fromHost=row[1], receivedAt=row[2], message=row[3]))
+            return logs
+        finally:
+            conn.close()

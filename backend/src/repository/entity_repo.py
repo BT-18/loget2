@@ -4,7 +4,7 @@ from util.connector import Pool
 
 class EntityRepo:
     def __init__(self, databasePool: Pool):
-        self.db = databasePool.get_connection()
+        self.pool = databasePool
         
     def add_entity(self, entity: Entity) -> None:
         """
@@ -13,10 +13,14 @@ class EntityRepo:
             entity (Entity): the entity object to add
         Returns: Nothing
         """
-        query = "INSERT INTO Entities (name) VALUES (?)"
-        cursor = self.db.cursor()
-        cursor.execute(query, (entity.get_name(),))
-        self.db.commit()
+        conn = self.pool.get_connection()
+        try:
+            query = "INSERT INTO Entities (name) VALUES (?)"
+            cursor = conn.cursor()
+            cursor.execute(query, (entity.get_name(),))
+            conn.commit()
+        finally:
+            conn.close()
         
     def get_all_entities(self) -> list:
         """
@@ -24,14 +28,18 @@ class EntityRepo:
         Args: None
         Returns: A list of Entity objects
         """
-        query = "SELECT name FROM Entities"
-        cursor = self.db.cursor()
-        cursor.execute(query)
-        results = cursor.fetchall()
-        entities = []
-        for row in results:
-            entities.append(Entity(name=row[0]))
-        return entities
+        conn = self.pool.get_connection()
+        try:
+            query = "SELECT name FROM Entities"
+            cursor = conn.cursor()
+            cursor.execute(query)
+            results = cursor.fetchall()
+            entities = []
+            for row in results:
+                entities.append(Entity(name=row[0]))
+            return entities
+        finally:
+            conn.close()
     
     def rename_entity(self, old_name: str, new_name: str) -> None:
         """
@@ -41,10 +49,14 @@ class EntityRepo:
             new_name (str): the new name for the entity
         Returns: Nothing
         """
-        query = "UPDATE Entities SET name = ? WHERE name = ?"
-        cursor = self.db.cursor()
-        cursor.execute(query, (new_name, old_name))
-        self.db.commit()
+        conn = self.pool.get_connection()
+        try:
+            query = "UPDATE Entities SET name = ? WHERE name = ?"
+            cursor = conn.cursor()
+            cursor.execute(query, (new_name, old_name))
+            conn.commit()
+        finally:
+            conn.close()
         
     def delete_entity(self, name: str) -> None:
         """
@@ -53,7 +65,11 @@ class EntityRepo:
             name (str): the name of the entity to delete
         Returns: Nothing
         """
-        query = "DELETE FROM Entities WHERE name = ?"
-        cursor = self.db.cursor()
-        cursor.execute(query, (name,))
-        self.db.commit()
+        conn = self.pool.get_connection()
+        try:
+            query = "DELETE FROM Entities WHERE name = ?"
+            cursor = conn.cursor()
+            cursor.execute(query, (name,))
+            conn.commit()
+        finally:
+            conn.close()
