@@ -99,11 +99,11 @@ class GroupRepo:
         cursor.execute(query, (new_name, old_name))
         self.db.commit()
         
-    def add_entity_to_group(self, entity_name: int, group_name: str) -> None:
+    def add_entity_to_group(self, entity_name: str, group_name: str) -> None:
         """
         Add an entity to a group
         Args:
-            entity_id (int): the ID of the entity to add 
+            entity_name (str): the name of the entity to add 
             group_name (str): the name of the group
         Returns: Nothing
         """
@@ -112,7 +112,7 @@ class GroupRepo:
         cursor.execute(query, (entity_name, group_name))
         self.db.commit()
         
-    def remove_entity_from_group(self, entity_name: int, group_name: str) -> None:
+    def remove_entity_from_group(self, entity_name: str, group_name: str) -> None:
         """
         Remove an entity from a group
         Args:

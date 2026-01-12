@@ -17,7 +17,7 @@ class GroupService:
         if role_claims != "admin":
             return "ADMIN_PRIVILEGES_REQUIRED"
         try:
-            group = Group(name=name)
+            group = Group(name=name) 
             self.group_repo.add_group(group)
             return "GROUP_ADDED"
         except mariadb.IntegrityError as e:
@@ -85,5 +85,35 @@ class GroupService:
             return "USER_REMOVED_FROM_GROUP"
         except mariadb.Error as e:
             return e.msg
-    
         
+    def add_entity_to_group(self, entity_name: str, group_name: str, role_claims: str) -> str:
+        """
+        Service method to add an entity to a group
+        Args:
+            entity_name (str): the name of the entity to add
+            group_name (str): the name of the group
+        Returns: A status message
+        """
+        if role_claims != "admin":
+            return "ADMIN_PRIVILEGES_REQUIRED"
+        try:
+            self.group_repo.add_entity_to_group(entity_name, group_name)
+            return "ENTITY_ADDED_TO_GROUP"
+        except mariadb.Error as e:
+            return e.msg
+        
+    def remove_entity_from_group(self, entity_name: str, group_name: str, role_claims: str) -> str:
+        """
+        Service method to remove an entity from a group
+        Args:
+            entity_name (str): the name of the entity to remove
+            group_name (str): the name of the group
+        Returns: A status message
+        """
+        if role_claims != "admin":
+            return "ADMIN_PRIVILEGES_REQUIRED"
+        try:
+            self.group_repo.remove_entity_from_group(entity_name, group_name)
+            return "ENTITY_REMOVED_FROM_GROUP"
+        except mariadb.Error as e:
+            return e.msg

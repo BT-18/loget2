@@ -1,5 +1,5 @@
 from flask import Blueprint, request, template_rendered
-from flask_jwt_extended import jwt_required, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -96,8 +96,8 @@ def init_user_routes(user_service):
         data = request.json
         email = data.get("email")
         new_totp = data.get("new_totp")
-        identity = get_jwt()["sub"]
-        role_claim = get_jwt().get("role", "")
+        identity = get_jwt_identity() #A VOIR SI CA FONCTIONNE , REMETTRE SUB SINON
+        role_claim = get_jwt().get("role", "")   
         result = user_service.update_totp(email, new_totp, identity, role_claim)
         if result == "TOTP_UPDATED":
             return {"msg":"TOTP_UPDATED"}, 200

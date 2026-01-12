@@ -1,4 +1,4 @@
-from backend.src.repository.group_repo import GroupRepo
+from repository.group_repo import GroupRepo
 from repository.log_repo import *
 from repository.user_repo import *
 from model.entity import *
@@ -18,6 +18,7 @@ class LogService:
         """
         Service method to retrieve logs with optional filters.
         Args:
+            identity :
             entities_names: Filter by entity names.
             start_timestamp: Filter logs received after this timestamp.
             end_timestamp: Filter logs received before this timestamp.
@@ -28,7 +29,7 @@ class LogService:
         final_entity_list = []
         if len(entities_names) == 0:
             final_entity_list = authorized_entities
-        else:    
+        else:
             for entity in entities_names:
                 if entity in authorized_entities:
                     final_entity_list.append(entity)

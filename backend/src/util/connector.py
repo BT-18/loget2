@@ -8,7 +8,7 @@ pool_config = {
     'user': 'rsyslog',
     'password': '1234',
     'database': 'Syslog',
-    "pool_size": 4
+    "pool_size": 10
 }
 
 

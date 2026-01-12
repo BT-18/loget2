@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from flask_jwt_extended import jwt_required, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
 from service.log_service import *
 
 log_bp = Blueprint('log', __name__, url_prefix='/log')
@@ -17,10 +17,7 @@ def init_log_routes(log_service):
         end_timestamp = data.get("end_timestamp")
         keyword = data.get("keyword")
         identity = get_jwt_identity()
-        role_claims = get_jwt().get("role", "")
-        if result == "GROUP_ADDED":
-            return {"msg":"GROUP_ADDED"}, 200
-        else:
-            return {"msg":f"ERROR {result}"}, 501
+        result = log_service.get_logs(identity, entities, start_timestamp, end_timestamp, keyword)
+        return result
     
     return log_bp
