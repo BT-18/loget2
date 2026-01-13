@@ -14,7 +14,7 @@ class LogService:
         self.log_repo = LogRepo(databasePool)
         self.user_repo = UserRepo(databasePool)
         
-    def get_logs(self, identity, entities_names, start_timestamp= None, end_timestamp = None, keyword= None):
+    def get_logs(self, identity, entities_names, start_timestamp=None, end_timestamp=None, keyword=None, limit=1000, offset=0):
         """
         Service method to retrieve logs with optional filters.
         Args:
@@ -23,15 +23,22 @@ class LogService:
             start_timestamp: Filter logs received after this timestamp.
             end_timestamp: Filter logs received before this timestamp.
             keyword: Filter logs containing this keyword in their message.
+            limit: Maximum number of logs to return
+            offset: Number of logs to skip
         Returns: A list of Log objects.
         """
+        print("identity for getting logs: ", identity)
         authorized_entities = self.user_repo.get_entities_of_users(identity)
+        
+        if entities_names is None:
+            entities_names = []
+        
         final_entity_list = []
-        if len(entities_names) == 0:
+        if not entities_names:  
             final_entity_list = authorized_entities
         else:
             for entity in entities_names:
                 if entity in authorized_entities:
                     final_entity_list.append(entity)
         
-        return self.log_repo.get_logs(entities_names=final_entity_list, start_timestamp=start_timestamp, end_timestamp=end_timestamp, keyword=keyword)
+        return self.log_repo.get_logs(entities_names=final_entity_list, start_timestamp=start_timestamp, end_timestamp=end_timestamp, keyword=keyword, limit=limit, offset=offset)

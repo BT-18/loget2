@@ -6,7 +6,7 @@ class LogRepo:
     def __init__(self, databasePool: Pool):
         self.pool = databasePool
         
-    def get_logs(self, entities_names: list, start_timestamp= None, end_timestamp = None, keyword= None, ) -> list:
+    def get_logs(self, entities_names: list, start_timestamp=None, end_timestamp=None, keyword=None, limit=50, offset=0) -> list:
         """
         Retrieve logs with optional filters.
         Args:
@@ -14,6 +14,8 @@ class LogRepo:
             start_timestamp: Filter logs received after this timestamp.
             end_timestamp: Filter logs received before this timestamp.
             keyword: Filter logs containing this keyword in their message.
+            limit: Maximum number of logs to return (default 1000)
+            offset: Number of logs to skip (default 0)
         Returns: A list of Log objects.
         """
         conn = self.pool.get_connection()
@@ -33,7 +35,10 @@ class LogRepo:
                 params.append(end_timestamp)
             if keyword:
                 query += " AND MATCH(Message) AGAINST(? IN BOOLEAN MODE)"
-                params.append(f"%{keyword}%")
+                params.append(keyword)
+            
+            query += " ORDER BY ReceivedAt DESC LIMIT ? OFFSET ?"
+            params.extend([limit, offset])
 
             cursor = conn.cursor()
             cursor.execute(query, tuple(params))

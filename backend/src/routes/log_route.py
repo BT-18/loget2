@@ -16,8 +16,10 @@ def init_log_routes(log_service):
         start_timestamp = data.get("start_timestamp")
         end_timestamp = data.get("end_timestamp")
         keyword = data.get("keyword")
+        limit = data.get("limit", 50)  
+        offset = data.get("offset", 0)   
         identity = get_jwt_identity()
         result = log_service.get_logs(identity, entities, start_timestamp, end_timestamp, keyword)
-        return result
+        return [log.to_dict() for log in result]
     
     return log_bp

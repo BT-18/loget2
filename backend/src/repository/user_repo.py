@@ -171,9 +171,13 @@ class UserRepo:
         """
         entities_list = []
         user_groups = self.get_groups_of_users(email)
-        for group_name in user_groups:
-            conn = self.pool.get_connection()
-            try:
+        
+        if not user_groups:
+            return entities_list
+        
+        conn = self.pool.get_connection()  
+        try:
+            for group_name in user_groups:
                 query = "SELECT E.name FROM Entities E JOIN EntityGroup GE ON E.id = GE.entity_id JOIN Groups G ON GE.group_id = G.id WHERE G.name = ?"
                 cursor = conn.cursor()
                 cursor.execute(query, (group_name,))
@@ -181,6 +185,7 @@ class UserRepo:
                 for row in results:
                     if row[0] not in entities_list:
                         entities_list.append(row[0])
-            finally:
-                conn.close()
+        finally:
+            conn.close()
+        
         return entities_list

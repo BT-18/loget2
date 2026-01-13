@@ -93,5 +93,16 @@ class Log:
         if receivedAt is None:
             raise TypeError("receivedAt must be provided")
         self.receivedAt = receivedAt
-        
+    
+    def to_dict(self) -> dict:
+        """
+        Convert the Log object to a dictionary for JSON serialization
+        Returns: Dictionary representation of the log
+        """
+        return {
+            'id': self.id,
+            'fromHost': self.fromHost,
+            'receivedAt': self.receivedAt,
+            'message': self.message
+        }
         
