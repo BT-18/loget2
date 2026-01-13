@@ -4,7 +4,7 @@ SRC_DIR = os.path.join(BASE_DIR, 'src')
 sys.path.extend([BASE_DIR, SRC_DIR])
 
 import unittest
-from src.util.connector import Pool
+from util.connector import Pool
 from user.user_test import UserRepoTest
 
 pool = Pool()
