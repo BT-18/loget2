@@ -14,7 +14,7 @@ class LogService:
         self.log_repo = LogRepo(databasePool)
         self.user_repo = UserRepo(databasePool)
         
-    def get_logs(self, identity, entities_names, start_timestamp=None, end_timestamp=None, keyword=None, limit=1000, offset=0):
+    def get_logs(self, identity, entities_names, start_timestamp=None, end_timestamp=None, keyword=None, limit=50, offset=0):
         """
         Service method to retrieve logs with optional filters.
         Args:

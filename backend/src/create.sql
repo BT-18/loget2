@@ -42,6 +42,9 @@ CREATE TABLE IF NOT EXISTS EntityGroup(
 CREATE FULLTEXT INDEX idx_message_fulltext ON SystemEvents(Message);
 CREATE INDEX idx_devicereportedtime ON SystemEvents(DeviceReportedTime);
 CREATE INDEX idx_fromhost_time ON SystemEvents(FromHost, DeviceReportedTime);
+CREATE INDEX idx_fromhost ON SystemEvents(FromHost);
+CREATE INDEX idx_receivedat ON SystemEvents(ReceivedAt);
+CREATE INDEX idx_fromhost_receivedat ON SystemEvents(FromHost, ReceivedAt DESC);
 
 INSERT INTO Users (email, hash, role) VALUES ('admin@test.com', "1234", 'admin')
 INSERT INTO Users (email, hash, role) VALUES ('user@test.com', "1234", 'user')
