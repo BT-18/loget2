@@ -19,7 +19,7 @@ def init_entity_routes(entity_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @entity_bp.route("/delete", methods=["POST"])
+    @entity_bp.route("/delete", methods=["DELETE"])
     @jwt_required()
     def delete_entity():
         data = request.json
@@ -31,7 +31,7 @@ def init_entity_routes(entity_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @entity_bp.route("/rename", methods=["POST"])
+    @entity_bp.route("/rename", methods=["PATCH"])
     @jwt_required()
     def rename_entity():
         data = request.json
@@ -43,7 +43,5 @@ def init_entity_routes(entity_service):
             return {"msg":"ENTITY_RENAMED"}, 200
         else:
             return {"msg":f"ERROR {result}"}, 501
-        
-    
-    
+
     return entity_bp

@@ -17,7 +17,7 @@ def init_group_routes(group_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @group_bp.route("/delete", methods=["POST"])
+    @group_bp.route("/delete", methods=["DELETE"])
     @jwt_required()
     def delete_group():
         data = request.json
@@ -29,7 +29,7 @@ def init_group_routes(group_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @group_bp.route("/rename", methods=["POST"])
+    @group_bp.route("/rename", methods=["PATCH"])
     @jwt_required()
     def rename_group():
         data = request.json

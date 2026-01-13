@@ -19,7 +19,7 @@ def init_user_routes(user_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @user_bp.route("/delete", methods=["POST"])
+    @user_bp.route("/delete", methods=["DELETE"])
     @jwt_required()
     def delete_user():
         data = request.json
@@ -62,7 +62,7 @@ def init_user_routes(user_service):
         else:
             return {"access_token": access_token}, 200
         
-    @user_bp.route("/update_email", methods=["POST"])
+    @user_bp.route("/update_email", methods=["PATCH"])
     @jwt_required()
     def update_email():
         data = request.json
@@ -76,7 +76,7 @@ def init_user_routes(user_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @user_bp.route("/update_password", methods=["POST"])
+    @user_bp.route("/update_password", methods=["PATCH"])
     @jwt_required()
     def update_password():
         data = request.json
@@ -90,7 +90,7 @@ def init_user_routes(user_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
-    @user_bp.route("/update_totp", methods=["POST"])
+    @user_bp.route("/update_totp", methods=["PATCH"])
     @jwt_required()
     def update_totp():
         data = request.json

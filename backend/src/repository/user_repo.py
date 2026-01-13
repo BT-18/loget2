@@ -20,6 +20,7 @@ class UserRepo:
             cursor.execute(query, (email,))
             result = cursor.fetchone()
             if result:
+                print(result)
                 return User(result[0], result[1], result[2], totp=result[3])
             else:
                 return None
@@ -35,9 +36,9 @@ class UserRepo:
         """
         conn = self.pool.get_connection()
         try:
-            query = "INSERT INTO Users (email, hash, totp) VALUES (?, ?, ?)"
+            query = "INSERT INTO Users (email, hash, role, totp) VALUES (?, ?, ?, ?)"
             cursor = conn.cursor()
-            cursor.execute(query, (user.get_email(), user.get_password(), user.get_totp()))
+            cursor.execute(query, (user.get_email(), user.get_password(), user.get_role(), user.get_totp()))
             conn.commit()
         finally:
             conn.close()
@@ -152,7 +153,7 @@ class UserRepo:
         """
         conn = self.pool.get_connection()
         try:
-            query = "SELECT G.name FROM Groups G JOIN UserGroups UG ON G.id = UG.group_id JOIN Users U ON UG.user_id = U.id WHERE U.email = ?"
+            query = "SELECT G.name FROM Groups G JOIN UserGroup UG ON G.id = UG.group_id JOIN Users U ON UG.user_id = U.id WHERE U.email = ?"
             cursor = conn.cursor()
             cursor.execute(query, (email,))
             results = cursor.fetchall()
@@ -173,7 +174,7 @@ class UserRepo:
         for group_name in user_groups:
             conn = self.pool.get_connection()
             try:
-                query = "SELECT E.name FROM Entities E JOIN GroupEntities GE ON E.id = GE.entity_id JOIN Groups G ON GE.group_id = G.id WHERE G.name = ?"
+                query = "SELECT E.name FROM Entities E JOIN EntityGroup GE ON E.id = GE.entity_id JOIN Groups G ON GE.group_id = G.id WHERE G.name = ?"
                 cursor = conn.cursor()
                 cursor.execute(query, (group_name,))
                 results = cursor.fetchall()

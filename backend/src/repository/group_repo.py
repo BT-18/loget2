@@ -31,7 +31,7 @@ class GroupRepo:
         """
         conn = self.pool.get_connection()
         try:
-            query = "INSERT INTO UserGroups (user_id, group_id) VALUES ((SELECT id FROM Users WHERE email = ?), (SELECT id FROM Groups WHERE name = ?))"
+            query = "INSERT INTO UserGroup (user_id, group_id) VALUES ((SELECT id FROM Users WHERE email = ?), (SELECT id FROM Groups WHERE name = ?))"
             cursor = conn.cursor()
             cursor.execute(query, (email, group_name))
             conn.commit()
@@ -48,7 +48,7 @@ class GroupRepo:
         """
         conn = self.pool.get_connection()
         try:
-            query = "DELETE FROM UserGroups WHERE user_id = (SELECT id FROM Users WHERE email = ?) AND group_id = (SELECT id FROM Groups WHERE name = ?)"
+            query = "DELETE FROM UserGroup WHERE user_id = (SELECT id FROM Users WHERE email = ?) AND group_id = (SELECT id FROM Groups WHERE name = ?)"
             cursor = conn.cursor()
             cursor.execute(query, (email, group_name))
             conn.commit()
@@ -99,7 +99,7 @@ class GroupRepo:
         """
         conn = self.pool.get_connection()
         try:
-            query = "SELECT U.email FROM Users U JOIN UserGroups UG ON U.id = UG.user_id JOIN Groups G ON UG.group_id = G.id WHERE G.name = ?"
+            query = "SELECT U.email FROM Users U JOIN UserGroup UG ON U.id = UG.user_id JOIN Groups G ON UG.group_id = G.id WHERE G.name = ?"
             cursor = conn.cursor()
             cursor.execute(query, (group_name,))
             results = cursor.fetchall()
@@ -124,5 +124,59 @@ class GroupRepo:
             cursor = conn.cursor()
             cursor.execute(query, (new_name, old_name))
             conn.commit()
+        finally:
+            conn.close()
+            
+    def add_entity_to_group(self, entity_name: str, group_name: str) -> None:
+        """
+        Add an entity to a group
+        Args:
+            entity_name (str): the name of the entity to add
+            group_name (str): the name of the group
+        Returns: Nothing
+        """
+        conn = self.pool.get_connection()
+        try:
+            query = "INSERT INTO EntityGroup (group_id, entity_id) VALUES ((SELECT id FROM Groups WHERE name = ?), (SELECT id FROM Entities WHERE name = ?))"
+            cursor = conn.cursor()
+            cursor.execute(query, (group_name, entity_name))
+            conn.commit()
+        finally:
+            conn.close()
+            
+    def remove_entity_from_group(self, entity_name: str, group_name: str) -> None:
+        """
+        Remove an entity from a group
+        Args:
+            entity_name (str): the name of the entity to remove
+            group_name (str): the name of the group
+        Returns: Nothing
+        """
+        conn = self.pool.get_connection()
+        try:
+            query = "DELETE FROM EntityGroup WHERE group_id = (SELECT id FROM Groups WHERE name = ?) AND entity_id = (SELECT id FROM Entities WHERE name = ?)"
+            cursor = conn.cursor()
+            cursor.execute(query, (group_name, entity_name))
+            conn.commit()
+        finally:
+            conn.close()
+            
+    def get_entities_in_group(self, group_name: str) -> list:
+        """
+        Retrieve all entities in a group
+        Args:
+            group_name (str): the name of the group
+        Returns: A list of entity names
+        """
+        conn = self.pool.get_connection()
+        try:
+            query = "SELECT E.name FROM Entities E JOIN EntityGroup GE ON E.id = GE.entity_id JOIN Groups G ON GE.group_id = G.id WHERE G.name = ?"
+            cursor = conn.cursor()
+            cursor.execute(query, (group_name,))
+            results = cursor.fetchall()
+            entities = []
+            for row in results:
+                entities.append(row[0])
+            return entities
         finally:
             conn.close()
