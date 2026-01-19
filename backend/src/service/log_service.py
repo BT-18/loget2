@@ -27,18 +27,22 @@ class LogService:
             offset: Number of logs to skip
         Returns: A list of Log objects.
         """
-        print("identity for getting logs: ", identity)
+        print("identity for getting logs: ", entities_names)
         authorized_entities = self.user_repo.get_entities_of_users(identity)
+        print("authorized entities: ", authorized_entities)
         
-        if entities_names is None:
-            entities_names = []
+        #if entities_names is None:
+        #    entities_names = []
         
         final_entity_list = []
-        if not entities_names:  
+        if entities_names is None:  
             final_entity_list = authorized_entities
         else:
             for entity in entities_names:
                 if entity in authorized_entities:
                     final_entity_list.append(entity)
-        
+        print("final entity list: ", final_entity_list)
+        if final_entity_list == []:
+            empty_entity = Entity(name="__EMPTY__")
+            final_entity_list = [empty_entity]
         return self.log_repo.get_logs(entities_names=final_entity_list, start_timestamp=start_timestamp, end_timestamp=end_timestamp, keyword=keyword, limit=limit, offset=offset)
