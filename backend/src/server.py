@@ -21,9 +21,11 @@ entityService = EntityService(databasePool)
 logService = LogService(databasePool)
 
 
-app.config['SECRET_KEY'] = 'test'
+#app.config['SECRET_KEY'] = 'test'
 app.config["JWT_SECRET_KEY"] = 'test'
-app.config['JWT_TOKEN_LOCATION'] = ['headers']
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_SECURE"] = False # A METTRE A TRUE EN PRODUCTION POUR UTILISER LE HTTPS
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True  
 
 jwt = JWTManager(app)
 

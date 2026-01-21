@@ -1,5 +1,5 @@
-from flask import Blueprint, request, template_rendered
-from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
+from flask import Blueprint, jsonify, request, template_rendered
+from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity, set_access_cookies
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -44,7 +44,10 @@ def init_user_routes(user_service):
         elif access_token == "TOTP_REQUIRED":
             return {"msg": "TOTP_REQUIRED"}, 401
         else:
-            return {"access_token": access_token}, 200
+            response = jsonify({"msg": "AUTH_SUCCESS"})
+            set_access_cookies(response, access_token)
+            return response
+            #return {"access_token": access_token}, 200
     
     @user_bp.route("/check_totp", methods=["POST"])
     def check_totp():
@@ -60,7 +63,9 @@ def init_user_routes(user_service):
         elif access_token == "TOTP_FAILED":
             return {"msg": "TOTP_FAILED"}, 401
         else:
-            return {"access_token": access_token}, 200
+            response = jsonify({"msg": "AUTH_SUCCESS"})
+            set_access_cookies(response, access_token)
+            return response
         
     @user_bp.route("/update_email", methods=["PATCH"])
     @jwt_required()
