@@ -109,4 +109,9 @@ def init_user_routes(user_service):
         else:
             return {"msg":f"ERROR {result}"}, 501
         
+    @user_bp.route("/verify", methods=["GET"])
+    @jwt_required()
+    def verify():
+        return {"msg": "TOKEN_VALID"}, 200
+        
     return user_bp
