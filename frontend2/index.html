@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <title>Loget</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.svg">
+</head>
+<script>
+    function login(){
+        
+    }
+</script>
+<body>
+    <div class="title-group">
+        <img src="assets/logo-ET-couleur-noir 1.svg" alt="logo Espace Technologie" width="20%">
+    </div>
+    <div class="connection">
+        <h2>Connection</h2>
+            <form id="login" action="">
+                <div class="connection-input">
+                    <label for="email">Email</label>
+                    <input id="email" type="text" name="email">
+                    <label for="password">Mot de Passe</label>
+                    <input id="password" type="text" name="password">
+                    <label id="totpLabel" for="mfa" hidden>Code Multifacteur</label>
+                    <input id="totp" type="text" name="mfa" hidden>
+                    <input type="submit" value="Se Connecter">
+                </div>
+            </form>
+            <p id="status" hidden>test</p>
+    </div>
+    <script src="scripts/login.js"></script>
+
+</body>
+</html>

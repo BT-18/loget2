@@ -1,44 +1,56 @@
 const form = document.getElementById('login');
 const statusText = document.getElementById('status');
-const totpInput = document.getElementById('totp')
-const totpLabel = document.getElementById('totpLabel')
+const totpInput = document.getElementById('totp');
+const totpLabel = document.getElementById('totpLabel');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
 
 let msg = "";
 
-async function statusManagement(response){
+function showMessage(message, error = false){
+    statusText.hidden = false;
+    statusText.textContent = message;
+    
+    if (error) {
+        statusText.style = "color: red";
+    } else {
+        statusText.style = "color: green";
+    }
+}
 
+async function statusManagement(response){
+    error = false;
     const result = await response.json();
     if (response.status == 501) {
         msg = "Erreur lors de la connection"
-        throw new Error(msg +  " : " +  response.status);
     } else if (response.status == 401 && result ["msg"] != "TOTP_REQUIRED") {
-        console.log(response.status)
+        error = true;
         msg = "Le mot de passe ou identifiant de connexion est incorrecte";
-        throw new Error(msg +  " : " +  response.status);
     } else if (result ["msg"] == "TOTP_REQUIRED"){
+        error = true;
         msg = "Veuillez entrer votre code de double authentification"
     } else if (response.ok  ) {
         msg = "Connection réussie";
     } else {
         msg = "Erreur inconnue";
-        throw new Error(msg +  " : " +  response.status);
     }
     
-    statusText.hidden = false;
-    statusText.textContent = msg;
-    statusText.style = "color: green";
+    showMessage(msg, error);
     console.log('Réponse du serveur :', result["msg"]);
     
 
    
 
     if (result["msg"] == "TOTP_REQUIRED"){
+        emailInput.disabled = true;
+        passwordInput.disabled = true
         totpInput.hidden = false;
         totpLabel.hidden = false;
         
     } else if (response.ok) {
         window.location.href = "dashboard.html";
-    }
+    } 
+
 }
 
 form.addEventListener('submit', async (e) => {
@@ -64,11 +76,8 @@ form.addEventListener('submit', async (e) => {
             statusManagement(response);
 
 
-        } catch (error) {
-            alert("test");
-            statusText.hidden = false;
-            statusText.textContent = msg;
-            statusText.style = "color: red"
+        } catch (error) {;
+            showMessage(msg, true)
             console.error(error);
         }
     } else {
@@ -87,9 +96,7 @@ form.addEventListener('submit', async (e) => {
 
         } catch (error) {
             console.log("Received Error");
-            statusText.hidden = false;
-            statusText.textContent = msg;
-            statusText.style = "color: red"
+            showMessage(msg, true)
             console.error(error);
         }
     }
