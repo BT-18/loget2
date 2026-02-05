@@ -1,3 +1,10 @@
+import {verify} from './util/verifyLogin.js'
+
+if (await verify() == true){
+    document.location.href="dashboard.html"
+}
+
+
 const form = document.getElementById('login');
 const statusText = document.getElementById('status');
 const totpInput = document.getElementById('totp');
@@ -19,7 +26,7 @@ function showMessage(message, error = false){
 }
 
 async function statusManagement(response){
-    error = false;
+    let error = false;
     const result = await response.json();
     if (response.status == 501) {
         msg = "Erreur lors de la connection"
@@ -38,9 +45,6 @@ async function statusManagement(response){
     showMessage(msg, error);
     console.log('Réponse du serveur :', result["msg"]);
     
-
-   
-
     if (result["msg"] == "TOTP_REQUIRED"){
         emailInput.disabled = true;
         passwordInput.disabled = true
@@ -59,8 +63,6 @@ form.addEventListener('submit', async (e) => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
 
-    
-
     if (window.getComputedStyle(totpInput).display === "none") {
 
         try {
@@ -74,7 +76,6 @@ form.addEventListener('submit', async (e) => {
             });
 
             statusManagement(response);
-
 
         } catch (error) {;
             showMessage(msg, true)
@@ -100,5 +101,4 @@ form.addEventListener('submit', async (e) => {
             console.error(error);
         }
     }
-    
 });
