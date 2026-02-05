@@ -23,12 +23,35 @@
             <li><a href="">Group Management</a></li>
             <li><a href="">Database Management</a></li>
             <li><a href="">Deconnexion</a></li>
-            
         </ul>
     </nav>
     <div class="content">
-        <p>test</p>
-
+        <form action="">
+            <div id="searchPanel">
+                <input id="searchButton" type="submit" value="Rechercher">
+            </div>
+            <table id="logTable">
+                <tr>
+                    <td></td>
+                    <td><input type="search" name="entities" placeholder="Hostname"></td>
+                    <td>
+                        <input type="date" name="start_timestamp"> 
+                        -
+                        <input type="date" name="end_timestamp">
+                    </td>
+                    <td><input type="search" name="keyword" placeholder="Keyword"></td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>Host</td>
+                    <td>Time Received</td>
+                    <td>Message</td>
+                </tr>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+        
     </div>
 </body>
 </html>

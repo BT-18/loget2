@@ -23,6 +23,7 @@ nav {
     border: none;
     border-radius: 0;
     padding: 16px;
+    position: fixed;
 }
 
 .logo-wrap {
@@ -59,3 +60,45 @@ li:hover {
 li:hover a {
     color: #000;
 }
+
+.content{
+    padding-left:  282px;
+    margin-top: 2%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 100rem;
+
+}
+
+table{
+    width: 100%;
+    border-style: solid;
+    border-radius: 8px;
+    border-color: black;
+    border-width: 3px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+td {
+    border-style: solid;
+    border-radius: 8px;
+    border-color: black;
+    border-width: 3px;  
+}
+
+#searchPanel{
+    margin-bottom: 2%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#searchButton{
+    width: 200px;
+    padding: 5px;
+}
+
+
+
