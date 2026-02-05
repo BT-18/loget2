@@ -8,7 +8,7 @@ def init_log_routes(log_service):
     
     #identity, entities_names, start_timestamp= None, end_timestamp = None, keyword= None
     
-    @log_bp.route("/get_logs", methods=["GET"])
+    @log_bp.route("/get_logs", methods=["POST"])
     @jwt_required()
     def get_logs():
         data = request.json

@@ -28,10 +28,10 @@ class LogRepo:
                 query += f" AND FromHost IN ({placeholders})"
                 params.extend(entities_names)
             if start_timestamp:
-                query += " AND DeviceReportedTime >= ?"
+                query += " AND ReceivedAt >= ?"
                 params.append(start_timestamp)
             if end_timestamp:
-                query += " AND DeviceReportedTime <= ?"
+                query += " AND ReceivedAt <= ?"
                 params.append(end_timestamp)
             if keyword:
                 query += " AND MATCH(Message) AGAINST(? IN BOOLEAN MODE)"

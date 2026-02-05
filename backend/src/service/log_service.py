@@ -31,8 +31,14 @@ class LogService:
         authorized_entities = self.user_repo.get_entities_of_users(identity)
         print("authorized entities: ", authorized_entities)
         
-        #if entities_names is None:
-        #    entities_names = []
+        if entities_names == [""]:
+            entities_names = None
+        if start_timestamp == "":
+            start_timestamp = None
+        if end_timestamp == "":
+            end_timestamp = None
+        if keyword == "":
+            keyword = None
         
         final_entity_list = []
         if entities_names is None:  
