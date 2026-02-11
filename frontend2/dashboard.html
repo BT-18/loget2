@@ -28,7 +28,7 @@
     <div class="content">
         <form action="">
             <div id="searchPanel">
-                <input id="searchButton" type="submit" value="Rechercher">
+                <input id="searchButton" name="search" type="submit" value="Rechercher">
             </div>
             <table id="logTable">
                 <tr>
@@ -41,17 +41,20 @@
                     </td>
                     <td><input type="search" name="keyword" placeholder="Keyword"></td>
                 </tr>
-                <tr>
+                <tr id="title">
                     <td>ID</td>
-                    <td>Host</td>
-                    <td>Time Received</td>
+                    <td>Hôte</td>
+                    <td>Date</td>
                     <td>Message</td>
                 </tr>
                 <tbody>
                 </tbody>
             </table>
-        </form>
-        
+            <div id="switchPage">
+                <input id="switchButton" name="previous" type="submit" value="Précédent">
+                <input id="switchButton" name="next" type="submit" value="Suivant">
+            </div>
+        </form> 
     </div>
 </body>
 </html>

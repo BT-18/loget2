@@ -100,5 +100,21 @@ td {
     padding: 5px;
 }
 
+#switchPage {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
 
+#switchButton {
+    width: 200px;
+}
 
+#title {
+    background-color: #000;
+    color: white;
+    border-color: white;
+    
+}
